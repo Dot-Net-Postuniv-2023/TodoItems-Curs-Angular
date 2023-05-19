@@ -1,0 +1,18 @@
+<div *ngIf="todoItem">
+  <h2>Details for ToDo Item: {{ todoItem.name }}</h2>
+
+  <p>
+    <strong>Id:</strong>
+    <span>{{ todoItem.id }}</span>
+  </p>
+  <p>
+    <strong>Name:</strong>
+    <span>{{ todoItem.name }}</span>
+  </p>
+  <p>
+    <strong>Is complete:</strong>
+    <span>{{ todoItem.isComplete }}</span>
+  </p>
+
+  <a [routerLink]="['/todo-items']">Back to ToDo Items</a>
+</div>
