@@ -15,6 +15,8 @@
     />
   </label>
   <br />
+  <textarea [(ngModel)]="todoItem.description" name="description"></textarea>
+  <br />
   <button type="submit">Add</button>
   <button (click)="cancel()">Cancel, go back</button>
 </form>

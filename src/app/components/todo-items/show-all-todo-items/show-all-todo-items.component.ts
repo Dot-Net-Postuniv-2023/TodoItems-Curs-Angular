@@ -13,12 +13,14 @@ export class ShowAllTodoItemsComponent {
   isLoading = false;
   todoItems: TodoItem[] = [];
 
+  markedForDeletion: TodoItem | undefined;
+
   constructor(
     private todoItemsService: TodoItemsService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  private loadTodoItems(): void {
     this.isLoading = true;
     this.todoItemsService.getTodoItems().subscribe((data: TodoItem[]) => {
       this.todoItems = data;
@@ -26,7 +28,31 @@ export class ShowAllTodoItemsComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.loadTodoItems();
+  }
+
   editTodoItem(todoItem: TodoItem): void {
     this.router.navigate(['/todo-items/edit', todoItem.id]);
+  }
+
+  startDelete(todoItem: TodoItem): void {
+    this.markedForDeletion = todoItem;
+  }
+
+  confirmDelete(): void {
+    if (this.markedForDeletion) {
+      this.todoItemsService
+        .deleteTodoItem(this.markedForDeletion.id!)
+        .subscribe((data) => {
+          alert('Todo item deleted successfully!');
+          this.markedForDeletion = undefined;
+          this.loadTodoItems();
+        });
+    }
+  }
+
+  cancelDelete(): void {
+    this.markedForDeletion = undefined;
   }
 }
