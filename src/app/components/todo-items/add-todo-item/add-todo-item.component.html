@@ -1,22 +1,155 @@
-<form (submit)="addTodoItem()">
-  <input
-    type="text"
-    [(ngModel)]="todoItem.name"
-    name="name"
-    placeholder="Name"
-  />
-  <br />
-  <label for="isComplete"
-    >Is Complete
-    <input
-      type="checkbox"
-      [(ngModel)]="todoItem.isComplete"
-      name="isComplete"
-    />
-  </label>
-  <br />
-  <textarea [(ngModel)]="todoItem.description" name="description"></textarea>
-  <br />
-  <button type="submit">Add</button>
-  <button (click)="cancel()">Cancel, go back</button>
-</form>
+<div class="hero">
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label class="label" for="name">Name</label>
+      <div class="control">
+        <input
+          class="input"
+          id="name"
+          formControlName="name"
+          required
+          minlength="3"
+          [ngClass]="{
+            'is-danger':
+              todoForm.controls['name'].invalid &&
+              todoForm.controls['name'].dirty &&
+              todoForm.controls['name'].touched
+          }"
+        />
+      </div>
+
+      <div
+        class="notification"
+        *ngIf="
+          todoForm.controls['name'].invalid &&
+          todoForm.controls['name'].dirty &&
+          todoForm.controls['name'].touched
+        "
+      >
+        <p
+          class="help is-danger"
+          *ngIf="todoForm.controls['name'].errors?.['required']"
+        >
+          Name is required.
+        </p>
+        <p
+          class="help is-danger"
+          *ngIf="todoForm.controls['name'].errors?.['minlength']"
+        >
+          Name must be at least 3 characters long.
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="description">Description</label>
+      <div class="control">
+        <input
+          id="description"
+          formControlName="description"
+          required
+          minlength="3"
+          class="input"
+          [ngClass]="{
+            'is-danger':
+              todoForm.controls['description'].invalid &&
+              todoForm.controls['description'].dirty &&
+              todoForm.controls['description'].touched
+          }"
+        />
+        <div
+          class="notification"
+          *ngIf="
+            todoForm.controls['description'].invalid &&
+            todoForm.controls['description'].dirty &&
+            todoForm.controls['description'].touched
+          "
+        >
+          <p
+            class="help danger"
+            *ngIf="todoForm.controls['description'].errors?.['required']"
+          >
+            Description is required.
+          </p>
+          <p
+            class="help danger"
+            *ngIf="todoForm.controls['description'].errors?.['minlength']"
+          >
+            Description must be at least 3 characters long.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" formArrayName="todoSubItems">
+      <div
+        class="card p-3 mb-2"
+        *ngFor="let subItem of todoSubItems.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="control">
+          <label class="label" for="subItemTitle{{ i }}"
+            >Sub Item Name {{ i + 1 }}</label
+          >
+          <input
+            class="input"
+            id="subItemTitle{{ i }}"
+            formControlName="name"
+            required
+            minlength="3"
+            [ngClass]="{
+              'is-danger':
+                subItem.get('name')?.invalid &&
+                subItem.get('name')?.dirty &&
+                subItem.get('name')?.touched
+            }"
+          />
+          <div
+            class="notification"
+            *ngIf="
+              subItem.get('name')?.invalid &&
+              subItem.get('name')?.dirty &&
+              subItem.get('name')?.touched
+            "
+          >
+            <p
+              class="help is-danger"
+              *ngIf="subItem.get('name')?.errors?.['required']"
+            >
+              Sub Item Name is required.
+            </p>
+            <p
+              class="help is-danger"
+              *ngIf="subItem.get('name')?.errors?.['minlength']"
+            >
+              Sub Item Name must be at least 3 characters long.
+            </p>
+          </div>
+        </div>
+
+        <label class="label" for="subItemDescription{{ i }}"
+          >Sub Item Description {{ i + 1 }}</label
+        >
+        <input
+          class="input"
+          id="subItemDescription{{ i }}"
+          formControlName="description"
+          required
+          minlength="3"
+        />
+
+        <label class="label" for="subItemPriority{{ i }}"
+          >Sub Item subItemPriority {{ i + 1 }}</label
+        >
+        <input
+          class="input"
+          id="subItemPriority{{ i }}"
+          formControlName="priority"
+          required
+        />
+      </div>
+    </div>
+
+    <button type="button" (click)="addSubItem()">New Sub Item</button>
+    <button type="submit" [disabled]="todoForm.invalid">Add Todo</button>
+  </form>
+</div>

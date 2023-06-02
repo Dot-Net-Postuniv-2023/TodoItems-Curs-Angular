@@ -8,7 +8,7 @@ import { ShowAllTodoItemsComponent } from './components/todo-items/show-all-todo
 import { HttpClientModule } from '@angular/common/http';
 import { DetailsTodoItemComponent } from './components/todo-items/details-todo-item/details-todo-item.component';
 import { EditTodoItemComponent } from './components/todo-items/edit-todo-item/edit-todo-item.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteTodoItemComponent } from './components/todo-items/delete-todo-item/delete-todo-item.component';
 
 @NgModule({
@@ -20,7 +20,13 @@ import { DeleteTodoItemComponent } from './components/todo-items/delete-todo-ite
     EditTodoItemComponent,
     DeleteTodoItemComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
