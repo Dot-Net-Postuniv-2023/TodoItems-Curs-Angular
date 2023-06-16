@@ -5,6 +5,7 @@ import { DetailsTodoItemComponent } from './components/todo-items/details-todo-i
 import { EditTodoItemComponent } from './components/todo-items/edit-todo-item/edit-todo-item.component';
 import { AddTodoItemComponent } from './components/todo-items/add-todo-item/add-todo-item.component';
 import { DeleteTodoItemComponent } from './components/todo-items/delete-todo-item/delete-todo-item.component';
+import { LoginComponent } from './components/authentication/login/login.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'todo-items/delete/:id',
     component: DeleteTodoItemComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
 ];
 
